@@ -1,0 +1,2 @@
+[console_scripts]
+orpheus = orpheus.clt.click_entry:cli

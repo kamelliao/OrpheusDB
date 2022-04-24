@@ -31,9 +31,9 @@ class RelationManager(object):
       self.conn.cursor.execute(selectTemplate)
       _datatable_attribute_types = self.conn.cursor.fetchall()
       # column name
-      _attributes = map(lambda x : str(x[0]), _datatable_attribute_types)
+      _attributes = [str(x[0]) for x in _datatable_attribute_types]
       # data type
-      _attributes_type = map(lambda x: str(x[1]), _datatable_attribute_types)
+      _attributes_type = [str(x[1]) for x in _datatable_attribute_types]
       return _attributes, _attributes_type
 
 
@@ -187,7 +187,7 @@ class RelationManager(object):
 
     def create_relation(self,table_name):
       # Use CREATE SQL COMMAND
-      print "create_relation: Under Construction."
+      print("create_relation: Under Construction.")
 
     # will drop existing table to create the new table
     def create_relation_force(self, table_name, sample_table, sample_table_attributes=None):
@@ -226,7 +226,7 @@ class RelationManager(object):
       return new_rids
 
     def clean(self):
-      print "Clean: Under Construction."#????
+      print("Clean: Under Construction.")#????
 
     @staticmethod
     def reserve_table_check(name):

@@ -1,6 +1,6 @@
 import datetime
-import orpheus_const as const
-from helper import Print
+from . import orpheus_const as const
+from .helper import Print
 
 class VersionManager(object):
     def __init__(self, conn, request = None):

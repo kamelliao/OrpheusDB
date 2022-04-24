@@ -9,7 +9,7 @@ from django.conf import settings
 from orpheus.core.executor import Executor
 from orpheus.core.orpheus_exceptions import BadStateError, NotImplementedError, BadParametersError
 from orpheus.core.relation import RelationManager
-from db import DatabaseManager
+from .db import DatabaseManager
 import orpheus.core.orpheus_const as const
 from orpheus.core.vgraph import VersionGraph
 

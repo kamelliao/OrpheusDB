@@ -1,4 +1,4 @@
-import orpheus_exceptions as sys_exception
+from . import orpheus_exceptions as sys_exception
 import os
 import json
 

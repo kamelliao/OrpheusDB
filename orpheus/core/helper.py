@@ -8,7 +8,7 @@ class Print(object):
 			from django.contrib import messages
 			messages.info(self.request, msg)
 		else:
-			print "%s" % msg
+			print("%s" % msg)
 
 	def perror(self, err):
 		if self.request:

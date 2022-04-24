@@ -1,23 +1,23 @@
 import sys
-import user
+# import user
 import json
 import pandas as pd
 import os
 import sqlparse
 
-from db import DatasetExistsError
-from relation import RelationManager, RelationNotExistError, RelationOverwriteError, ReservedRelationError
-from orpheus_exceptions import BadStateError, NotImplementedError, BadParametersError
-from orpheus_sqlparse import SQLParser
+from .db import DatasetExistsError
+from .relation import RelationManager, RelationNotExistError, RelationOverwriteError, ReservedRelationError
+from .orpheus_exceptions import BadStateError, NotImplementedError, BadParametersError
+from .orpheus_sqlparse import SQLParser
 from django.contrib import messages
 from orpheus.core.vgraph import VersionGraph
-from access import AccessManager
-from version import VersionManager
-from metadata import MetadataManager
-from user_control import UserManager
-from orpheus_schema_parser import Parser as SimpleSchemaParser
-from helper import Print
-import orpheus_const as const
+from .access import AccessManager
+from .version import VersionManager
+from .metadata import MetadataManager
+from .user_control import UserManager
+from .orpheus_schema_parser import Parser as SimpleSchemaParser
+from .helper import Print
+from . import orpheus_const as const
 
 class Executor(object):
     def __init__(self, config, request = False):
@@ -49,7 +49,7 @@ class Executor(object):
         # at this point, we have a valid conn obj and rel obj
         try:
             # schema of the dataset, of the type (name, type)
-            schema_tuple = zip(attribute_name, attribute_type)
+            schema_tuple = list(zip(attribute_name, attribute_type))
             # create new dataset
             conn.create_dataset(input_file, dataset, schema_tuple, attributes=attribute_name)
             # get all rids in list

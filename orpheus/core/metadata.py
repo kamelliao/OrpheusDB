@@ -1,8 +1,8 @@
 import json
 import datetime
-import orpheus_exceptions as sys_exception
+from . import orpheus_exceptions as sys_exception
 
-from helper import Print
+from .helper import Print
 
 class MetadataManager(object):
     #TODO: refactor this class to static class for performance issue

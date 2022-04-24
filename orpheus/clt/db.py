@@ -31,7 +31,7 @@ class DatabaseManager():
 
 
     def connect_db(self):
-        print "Connecting to the database [%s] ..." % self.currentDB
+        print("Connecting to the database [%s] ..." % self.currentDB)
         try:
             if self.verbose:
                 click.echo('Trying to connect to %s' % (self.currentDB))
@@ -49,11 +49,11 @@ class DatabaseManager():
             self.cursor.execute(sql)
             if SQLParser.is_select(sql): #return records
                 colnames = [desc[0] for desc in self.cursor.description]
-                print ', '.join(colnames)
+                print(', '.join(colnames))
                 for row in self.cursor.fetchall():
-                    print ', '.join(str(e) for e in row)
+                    print(', '.join(str(e) for e in row))
             else:
-                print self.cursor.statusmessage
+                print(self.cursor.statusmessage)
             self.connect.commit() # commit UPDATE/INSERT messages
 
         except psycopg2.ProgrammingError:
@@ -67,7 +67,7 @@ class DatabaseManager():
     # schema is a list of tuple of (attribute_name, attribute_type) as string
     def create_dataset(self, inputfile, dataset, schema, header=False, attributes=None):
         self.refresh_cursor()
-        print "Creating the dataset [%s] to the database [%s] ..." % (dataset, self.currentDB)
+        print("Creating the dataset [%s] to the database [%s] ..." % (dataset, self.currentDB))
         # create a schema (in postgres) to store user specific information
         try:
             self.cursor.execute("CREATE SCHEMA IF NOT EXISTS %s ;" % self.user)
@@ -103,12 +103,12 @@ class DatabaseManager():
             # create cvd into public schema
             #TODO: change to private schema in later version
 
-            print "Creating the data table using the schema provided ..."
+            print("Creating the data table using the schema provided ...")
             # create datatable
             self.cursor.execute("CREATE TABLE %s (rid serial primary key, \
-                                                  %s);" % (const.PUBLIC_SCHEMA + dataset + const.DATATABLE_SUFFIX, ",".join(map(lambda (attribute_name, attribute_type) : attribute_name + " " + attribute_type, schema))))
+                                                  %s);" % (const.PUBLIC_SCHEMA + dataset + const.DATATABLE_SUFFIX, ",".join([attribute_name_attribute_type[0] + " " + attribute_name_attribute_type[1] for attribute_name_attribute_type in schema])))
 
-            print "Creating the version table ..."
+            print("Creating the version table ...")
             # create version table
             self.cursor.execute("CREATE TABLE %s(vid int primary key, \
                                                  author text, \
@@ -119,7 +119,7 @@ class DatabaseManager():
                                                  commit_time timestamp, \
                                                  commit_msg text);" % (const.PUBLIC_SCHEMA + dataset + const.VERSIONTABLE_SUFFIX))
 
-            print "Creating the index table ..."
+            print("Creating the index table ...")
             # create indexTbl table
             self.cursor.execute("CREATE TABLE %s (vid int primary key, \
                                                   rlist integer[]);" % (const.PUBLIC_SCHEMA + dataset + const.INDEXTABLE_SUFFIX))

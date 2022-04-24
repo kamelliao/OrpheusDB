@@ -1,6 +1,6 @@
-from encryption import EncryptionTool
+from .encryption import EncryptionTool
 
-import orpheus_exceptions as sys_exception
+from . import orpheus_exceptions as sys_exception
 import json
 
 class LocalUserExistError(Exception):
@@ -26,7 +26,7 @@ class UserManager(object):
 	def check_user_exist(cls, user):
 		from os import listdir
 		from os.path import isfile
-		return user in [usr for usr in listdir(cls.user_path())] and isfile("/".join([cls.user_path(), usr, 'config']))
+		return (user in [usr for usr in listdir(cls.user_path())]) and isfile("/".join([cls.user_path(), user, 'config']))
 
 	@classmethod
 	def create_user(cls, user, password=None):
@@ -57,7 +57,7 @@ class UserManager(object):
 	def get_current_state(cls):
 		try:
 			with open(cls.config_path(), 'r') as f:
-				config_info = json.loads(f.readline())
+				config_info = json.loads(f.readline() or 'null')
 		except Exception as inst:
 			return None
 		return config_info
@@ -75,6 +75,7 @@ class UserManager(object):
 	def verify_credential(cls, user, raw):
 		if cls.check_user_exist(user):
 			user_obj = cls.__get_user_config(user)
+			print(EncryptionTool.passphrase_hash(raw))
 			if user_obj['passphrase'] == EncryptionTool.passphrase_hash(raw):
 				return True
 		raise InvalidCredentialError()
@@ -83,7 +84,7 @@ class UserManager(object):
 	@classmethod
 	def __get_user_config(cls, user):
 		with open('/'.join([cls.user_path(), user, 'config']), 'r') as f:
-			user_obj = json.loads(f.readline())
+			user_obj = json.loads(f.readline() or 'null')
 		return user_obj
 
 	# for debug purpose

@@ -1,4 +1,4 @@
-from orpheus_exceptions import NotImplementedError
+from .orpheus_exceptions import NotImplementedError
 
 # This file is static file for parsing user given schema information
 # Expected comma seperated file as default

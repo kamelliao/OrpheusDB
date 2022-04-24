@@ -1,0 +1,7 @@
+Click
+psycopg2-binary
+PyYAML
+pandas
+pyparsing
+sqlparse
+django

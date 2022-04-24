@@ -4,8 +4,8 @@ import sqlparse, re
 from sqlparse.sql import Identifier, Token, Where
 from sqlparse.tokens import DML
 
-import orpheus_const as const
-from relation import RelationManager
+from . import orpheus_const as const
+from .relation import RelationManager
 from collections import defaultdict
 
 class InvalidSyntaxError(Exception):
@@ -41,7 +41,7 @@ class SQLParser(object):
 
 	def get_touched_table(self, touched_columns, fields_mapping):
 		touched_table = set()
-		for column in touched_columns.keys():
+		for column in list(touched_columns.keys()):
 			try:
 				touched_table.add(fields_mapping[column])
 			except KeyError:
@@ -197,7 +197,7 @@ class SQLParser(object):
 		# print touched_column_names
 
 		# replace all the touched columns by prefix a alias
-		for column in touched_column_names.keys():
+		for column in list(touched_column_names.keys()):
 			for (column_parent, column_idx) in touched_column_names[column]:
 				if column in fields_mapping: # only those we found in tables
 					if '.' in column_parent.value:

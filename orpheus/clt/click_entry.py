@@ -6,7 +6,7 @@ from orpheus.core.executor import Executor
 from orpheus.core.user_control import UserManager
 from orpheus.core.orpheus_exceptions import BadStateError, NotImplementedError, BadParametersError
 from orpheus.core.orpheus_sqlparse import SQLParser
-from db import DatabaseManager
+from .db import DatabaseManager
 
 class Context():
     def __init__(self):
@@ -16,7 +16,7 @@ class Context():
         self.config_path = os.environ['ORPHEUS_HOME'] + '/' + self.config_file
         try:
             with open(self.config_path, 'r') as f:
-                self.config = yaml.load(f)
+                self.config = yaml.load(f, Loader=yaml.FullLoader)
 
             assert(self.config['orpheus_home'] != None)
 
@@ -149,7 +149,7 @@ def ls(ctx, dataset, table_name):
     # if no dataset specified, show the list of dataset the current user owns
     try:
         conn = DatabaseManager(ctx.obj)
-        print "The current database contains the following CVDs:"
+        print("The current database contains the following CVDs:")
         if not dataset:
             click.echo("\n".join(conn.list_dataset()))
         else:

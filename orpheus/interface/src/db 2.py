@@ -83,7 +83,7 @@ class DatabaseManager():
             messages.info(self.request, "Creating datatable using the schema provided")
             # create datatable
             self.cursor.execute("CREATE TABLE %s (rid serial primary key, \
-                                                  %s);" % (const.PUBLIC_SCHEMA + dataset + const.DATATABLE_SUFFIX, ",".join([attribute_name_attribute_type[0] + " " + attribute_name_attribute_type[1] for attribute_name_attribute_type in schema])))
+                                                  %s);" % (const.PUBLIC_SCHEMA + dataset + const.DATATABLE_SUFFIX, ",".join(map(lambda (attribute_name, attribute_type) : attribute_name + " " + attribute_type, schema))))
 
             messages.info(self.request, "Creating version table")
             # create version table
